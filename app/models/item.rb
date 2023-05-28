@@ -1,5 +1,7 @@
 class Item < ApplicationRecord
-    enum :status, { no_visited: 0, visited: 1 }
+    belongs_to :user, class_name: 'User', foreign_key: 'user_id'
 
-    validates :link, presence: true
+    enum :status, { no_viewed: 0, viewed: 1 }
+
+    validates :item_link, presence: true, uniqueness: { scope: :title, message: "has already been saved" } 
 end
