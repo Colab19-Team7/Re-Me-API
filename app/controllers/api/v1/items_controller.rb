@@ -4,7 +4,7 @@ class Api::V1::ItemsController < ApplicationController
 
     # GET /items
     def index
-        items = @current_user.items
+        items = @current_user.items.order(created_at: :desc)
         render json: items, status: :ok
     end
 
@@ -16,8 +16,11 @@ class Api::V1::ItemsController < ApplicationController
     # POST /items
     def create
         @item = @current_user.items.new(video_params)
+        category = get_category(params[:link])
+        @item.category = category
 
         if @item.save
+            category.items << @item unless category.items.include?(@item)
             render json: @item, status: :created
         else
             render json: { errors: @item.errors.full_messages }, status: :unprocessable_entity
@@ -47,4 +50,6 @@ class Api::V1::ItemsController < ApplicationController
     def video_params
         LinkSpreader.call(params[:link])
     end
+
+    include CreateCategory
 end
