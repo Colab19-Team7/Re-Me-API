@@ -1,0 +1,3 @@
+POSTGRES_DB=Re_Me_api_development
+POSTGRES_PASSWORD=mypassword
+POSTGRES_USER=postgres
