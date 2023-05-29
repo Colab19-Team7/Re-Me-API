@@ -2,7 +2,7 @@ require 'uri'
 require 'rest-client'
 
 class LinkSpreader < ApplicationService
-    attr_reader :message
+    attr_reader :host
 
     def initialize(link)
         @item_link = link
@@ -30,7 +30,7 @@ class LinkSpreader < ApplicationService
 
     def youtube_link
         vido_key = @query[2..-1]
-        api_key = 'AIzaSyBjjAoRaF8PrTvX1b3IXz0ID8WchiEHMOI'
+        api_key = Rails.application.credentials.youtube_api_key
         url = "https://www.googleapis.com/youtube/v3/videos?part=snippet&id=#{vido_key}&key=#{api_key}"
 
         begin

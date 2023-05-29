@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resources :users
+      get '/categories', to: 'categories#index'
+      get '/categories/:name', to: 'categories#show'
+      delete 'categories/:name', to: 'categories#destroy'
       resources :items do
         resources :notifications
       end
