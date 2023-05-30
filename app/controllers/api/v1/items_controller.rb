@@ -1,6 +1,7 @@
 class Api::V1::ItemsController < ApplicationController
-    before_action :set_item, only: %i[show update destroy]
+    before_action :set_item, only: %i[show update destroy user_ability]
     before_action :video_params, only: %i[create update]
+    before_action :user_ability
 
     # GET /items
     def index
@@ -49,6 +50,13 @@ class Api::V1::ItemsController < ApplicationController
 
     def video_params
         LinkSpreader.call(params[:link])
+    end
+
+    def user_ability
+        authorize! :manage, @item
+    rescue CanCan::AccessDenied
+        render json: { errors: 'You are not authorized to perform this action' },
+               status: :unauthorized
     end
 
     include CreateCategory
