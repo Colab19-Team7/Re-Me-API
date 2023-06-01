@@ -83,5 +83,5 @@ production:
   <<: *default
   url: <%= ENV["DATABASE_HOST"] %>
   database: <%= ENV["DATABASE"] %>
-  username: re_me_api_production_user
+  username: <%= ENV["DATABASE_USER] %>
   password: <%= ENV["DATABASE_PASSWORD"] %>
