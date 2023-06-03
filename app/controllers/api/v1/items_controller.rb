@@ -30,7 +30,7 @@ class Api::V1::ItemsController < ApplicationController
 
     # PATCH PUT /items/id
     def update
-        unless @item.update(video_params)
+        unless @item.update(item_params)
             render json: { errors: @item.errors.full_messages }, status: :unprocessable_entity
         end
     end
@@ -49,7 +49,12 @@ class Api::V1::ItemsController < ApplicationController
     end
 
     def video_params
-        LinkSpreader.call(params[:link])
+        return LinkSpreader.call(params[:link]) if(params[:image].nil? || params[:image].strip.empty?)
+        LinkSpreader.call(params[:link], params[:image])
+    end
+
+    def item_params
+        params.permit(:title, :description, :item_image)
     end
 
     def user_ability

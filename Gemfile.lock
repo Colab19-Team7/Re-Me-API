@@ -185,6 +185,7 @@ DEPENDENCIES
   cancancan
   debug
   jwt (= 2.5)
+  nokogiri (~> 1.15, >= 1.15.2)
   pg (~> 1.1)
   puma (~> 5.0)
   rack-cors

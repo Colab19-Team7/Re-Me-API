@@ -4,8 +4,9 @@ require 'rest-client'
 class LinkSpreader < ApplicationService
     attr_reader :host
 
-    def initialize(link)
+    def initialize(link, image = nil)
         @item_link = link
+        @original = image
         @link = URI(link)
         @host = @link.host
         @path = @link.path
@@ -23,9 +24,19 @@ class LinkSpreader < ApplicationService
     private
 
     def normal_link
-        name = @path.split('/').last.sub('.html', '').gsub(/-/, ' ')
-        favicon = "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://#{@host}"
-        { title: name, description: '', item_image: favicon, item_link: @item_link }
+        reponse = RestClient.get(@item_link)
+
+        begin
+            doc = Nokogiri::HTML(reponse.body)
+            title = doc.css("meta[property='og:title']").first[:content]
+            image = doc.css("meta[property='og:image']").first[:content]
+            description = doc.css("meta[property='og:description']").first[:content]
+            { title: title, description: description, item_image: image, item_link: @item_link }
+        rescue
+            name = @path&.split('/')&.last&.sub('.html', '')&.gsub(/-/, ' ') || 'No title'
+            favicon = @original || "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://#{@host}"
+            { title: name, description: '', item_image: favicon, item_link: @item_link}
+        end
     end
 
     def youtube_link
@@ -45,5 +56,7 @@ class LinkSpreader < ApplicationService
             RestClient::TemporaryRedirect => err
             render json: { errors: err.response.follow_redirection }, status: :unprocessable_entity
         end
+    rescue NoMethodError
+        return normal_link
     end
 end
