@@ -1,6 +1,5 @@
 class Api::V1::ItemsController < ApplicationController
-    before_action :set_item, only: %i[show update destroy user_ability]
-    before_action :video_params, only: %i[create update]
+    before_action :set_item, only: %i[show update destroy]
     before_action :user_ability, only: %i[show, update, destroy]
 
     # GET /items
@@ -49,8 +48,8 @@ class Api::V1::ItemsController < ApplicationController
     end
 
     def video_params
-        return LinkSpreader.call(params[:link]) if(params[:image].nil? || params[:image].strip.empty?)
-        LinkSpreader.call(params[:link], params[:image])
+        return LinkSpreader.call(params[:link]) if(params[:item_image].nil? || params[:item_image].strip.empty?)
+        LinkSpreader.call(params[:link], params[:item_image])
     end
 
     def item_params
