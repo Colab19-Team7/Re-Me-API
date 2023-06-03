@@ -1,7 +1,7 @@
 class Api::V1::ItemsController < ApplicationController
     before_action :set_item, only: %i[show update destroy user_ability]
     before_action :video_params, only: %i[create update]
-    before_action :user_ability
+    before_action :user_ability, only: %i[show, update, destroy]
 
     # GET /items
     def index
