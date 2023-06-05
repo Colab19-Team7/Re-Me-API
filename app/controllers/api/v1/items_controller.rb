@@ -1,6 +1,7 @@
 class Api::V1::ItemsController < ApplicationController
     before_action :set_item, only: %i[show update destroy]
     before_action :user_ability, only: %i[show, update, destroy]
+    before_action :user_limit, only: %i[create]
 
     # GET /items
     def index
@@ -54,6 +55,10 @@ class Api::V1::ItemsController < ApplicationController
 
     def item_params
         params.permit(:title, :description, :item_image)
+    end
+
+    def user_limit
+        render json: { errors: "Sorry you reach your limit" }, status: :unauthorized  unless current_user.items.count <= 6
     end
 
     def user_ability
