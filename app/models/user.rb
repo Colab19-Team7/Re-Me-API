@@ -9,4 +9,8 @@ class User < ApplicationRecord
     validates :email, presence: true, uniqueness: true
     validates :fullname, presence: true
     validates :password, presence: true
+
+    def reach_limit?
+        Item.get_no_visited_items(self).count > 6
+    end
 end

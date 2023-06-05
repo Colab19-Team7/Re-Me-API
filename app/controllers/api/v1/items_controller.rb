@@ -5,7 +5,7 @@ class Api::V1::ItemsController < ApplicationController
 
     # GET /items
     def index
-        items = @current_user.items.order(created_at: :desc)
+        items = Item.get_no_visited_items(current_user)
         render json: items, status: :ok
     end
 
@@ -58,7 +58,7 @@ class Api::V1::ItemsController < ApplicationController
     end
 
     def user_limit
-        render json: { errors: "Sorry you reach your limit" }, status: :unauthorized  unless current_user.items.count <= 6
+        render json: { errors: "Sorry you reach your limit" }, status: :unauthorized  if current_user.reach_limit?
     end
 
     def user_ability
