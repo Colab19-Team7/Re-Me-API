@@ -24,19 +24,22 @@ class LinkSpreader < ApplicationService
     private
 
     def normal_link
-        reponse = RestClient.get(@item_link)
-
         begin
+            reponse = RestClient.get(@item_link)
             doc = Nokogiri::HTML(reponse.body)
             title = doc.css("meta[property='og:title']").first[:content]
             image = doc.css("meta[property='og:image']").first[:content]
             description = doc.css("meta[property='og:description']").first[:content]
             { title: title, description: description, item_image: image, item_link: @item_link }
-        rescue
-            name = @path&.split('/')&.last&.sub('.html', '')&.gsub(/-/, ' ') || 'No title'
-            favicon = @original || "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://#{@host}"
-            { title: name, description: '', item_image: favicon, item_link: @item_link}
+        rescue 
+            unknow_link
         end
+    end
+
+    def unknow_link
+        name = @path&.split('/')&.last&.sub('.html', '')&.gsub(/-/, ' ') || 'No title'
+        favicon = @original || "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://#{@host}"
+        { title: name, description: '', item_image: favicon, item_link: @item_link}
     end
 
     def youtube_link
