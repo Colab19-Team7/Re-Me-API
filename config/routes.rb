@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   end
 
   get 'test', to: 'test#index'
+  post 'test', to: 'test#test'
 
   post '/auth/login', to: 'sessions#login'
 
