@@ -7,7 +7,8 @@ class TestController < ApplicationController
     end
 
     def test
-        user = params[:message].to_json
-        ActionCable.server.broadcast "notification_#{params[:user_id]}_channel", user
+        current_user = User.find(2)
+        item = current_user.items.first.id
+        RemindJob.perform_later(user, item)
     end
 end
