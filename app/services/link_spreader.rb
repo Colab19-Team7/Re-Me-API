@@ -14,11 +14,12 @@ class LinkSpreader < ApplicationService
     end
 
     def call
-        if (@host === 'www.youtube.com') 
-            youtube_link
-        else
-            normal_link
-        end
+        # if (@host === 'www.youtube.com') 
+        #     youtube_link
+        # else
+        #     normal_link
+        # end
+        normal_link
     end
 
     private
@@ -42,24 +43,29 @@ class LinkSpreader < ApplicationService
         { title: name, description: '', item_image: favicon, item_link: @item_link}
     end
 
-    def youtube_link
-        vido_key = @query[2..-1]
-        api_key = Rails.application.credentials.youtube_api_key
-        url = "https://www.googleapis.com/youtube/v3/videos?part=snippet&id=#{vido_key}&key=#{api_key}"
+    # def videos_id
+    #     queries = URI.decode_www_form(@query || '').to_h
+    #     id = queries['v']
+    # end
 
-        begin
-            reponse = RestClient.get(url)
-            reponse = JSON.parse(reponse.body, object_class: OpenStruct)
-            name = reponse[:items][0][:snippet][:title]
-            description = reponse[:items][0][:snippet][:description]
-            image_link = reponse[:items][0][:snippet][:thumbnails][:medium][:url]
-            { title: name, description: description, item_image: image_link, item_link: @item_link }
-        rescue RestClient::MovedPermanently,
-            RestClient::Found,
-            RestClient::TemporaryRedirect => err
-            render json: { errors: err.response.follow_redirection }, status: :unprocessable_entity
-        end
-    rescue NoMethodError
-        return normal_link
-    end
+    # def youtube_link
+    #     vido_key = videos_id
+    #     api_key = Rails.application.credentials.youtube_api_key
+    #     url = "https://www.googleapis.com/youtube/v3/videos?part=snippet&id=#{vido_key}&key=#{api_key}"
+
+    #     begin
+    #         reponse = RestClient.get(url)
+    #         reponse = JSON.parse(reponse.body, object_class: OpenStruct)
+    #         name = reponse[:items][0][:snippet][:title]
+    #         description = reponse[:items][0][:snippet][:description]
+    #         image_link = reponse[:items][0][:snippet][:thumbnails][:medium][:url]
+    #         { title: name, description: description, item_image: image_link, item_link: @item_link }
+    #     rescue RestClient::MovedPermanently,
+    #         RestClient::Found,
+    #         RestClient::TemporaryRedirect => err
+    #         render json: { errors: err.response.follow_redirection }, status: :unprocessable_entity
+    #     end
+    # rescue NoMethodError
+    #     return normal_link
+    # end
 end
