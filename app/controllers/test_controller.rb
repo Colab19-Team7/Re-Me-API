@@ -8,6 +8,6 @@ class TestController < ApplicationController
 
     def test
         user = params[:message].to_json
-        ActionCable.server.broadcast "NotificationChannel", user
+        ActionCable.server.broadcast "notification_#{params[:user_id]}_channel", user
     end
 end
