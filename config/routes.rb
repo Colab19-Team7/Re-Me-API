@@ -6,6 +6,8 @@ Rails.application.routes.draw do
       get '/categories', to: 'categories#index'
       get '/categories/:name', to: 'categories#show'
       delete 'categories/:name', to: 'categories#destroy'
+      patch '/archived', to: 'archive#update_status'
+      get '/archives', to: 'archive#archives'
       resources :items do
         resources :notifications
       end

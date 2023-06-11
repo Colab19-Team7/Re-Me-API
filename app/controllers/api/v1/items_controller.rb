@@ -41,12 +41,6 @@ class Api::V1::ItemsController < ApplicationController
     end
 
     private
-    
-    def set_item
-        @item = Item.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-        render json: { errors: "Item not fount" }, status: :not_found
-    end
 
     def video_params
         return LinkSpreader.call(params[:link]) if(params[:item_image].nil? || params[:item_image].strip.empty?)
@@ -59,13 +53,6 @@ class Api::V1::ItemsController < ApplicationController
 
     def user_limit
         render json: { errors: "Sorry you reach your limit" }, status: :unauthorized  if current_user.reach_limit?
-    end
-
-    def user_ability
-        authorize! :manage, @item
-    rescue CanCan::AccessDenied
-        render json: { errors: 'You are not authorized to perform this action' },
-               status: :unauthorized
     end
 
     include CreateCategory
