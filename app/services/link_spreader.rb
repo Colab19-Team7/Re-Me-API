@@ -42,8 +42,13 @@ class LinkSpreader < ApplicationService
         { title: name, description: '', item_image: favicon, item_link: @item_link}
     end
 
+    def videos_id
+        queries = URI.decode_www_form(@query || '').to_h
+        id = queries['v']
+    end
+
     def youtube_link
-        vido_key = @query[2..-1]
+        vido_key = videos_id
         api_key = Rails.application.credentials.youtube_api_key
         url = "https://www.googleapis.com/youtube/v3/videos?part=snippet&id=#{vido_key}&key=#{api_key}"
 

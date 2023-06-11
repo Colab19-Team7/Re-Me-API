@@ -14,5 +14,6 @@ module CreateCategory
         image_link = "https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://#{host}"
         @category = Category.new(name: name, domain: host, category_image: image_link)
         render json: { errors: category.errors.full_messages }, status: :unprocessable_entity unless @category.save
+        return @category
     end
 end
