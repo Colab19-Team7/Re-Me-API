@@ -8,13 +8,13 @@ Rails.application.routes.draw do
       delete 'categories/:name', to: 'categories#destroy'
       patch '/archived', to: 'archive#update_status'
       get '/archives', to: 'archive#archives'
-      resources :items do
-        resources :notifications
-      end
+      get '/notifications', to: 'notifications#index'
+      patch '/notification', to: 'notifications#update'
     end
   end
 
   get 'test', to: 'test#index'
+  post 'test', to: 'test#test'
 
   post '/auth/login', to: 'sessions#login'
 

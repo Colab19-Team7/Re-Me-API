@@ -1,0 +1,13 @@
+Hi <%= @name %>,
+
+Here is your Weekly Reminder
+
+<% if @no_visited.any? %>
+You have <%= pluralize(@no_visited.count, 'item') %> that has no been viewed this Week
+
+<% @no_visited.each do |item| %>
+    Item title: <%= item['title'] %>
+    Item link: <%= item['item_link'] %>
+
+<% end %>
+<% end %>
