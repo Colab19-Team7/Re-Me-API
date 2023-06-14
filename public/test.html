@@ -4,10 +4,18 @@
         <title>New test</title>
     </head>
     <body>
-        <form action="http://localhost:3000/test" method="post">
-            <input type="text" name="message" id="message">
-            <input type="number" name="user_id" id="user_id">
-            <button>Submit</button>
+        <form action="http://localhost:3000/test" method="post" style="width: 400px; margin: 0 auto">
+            <fieldset>
+                <input type="number" name="user_id" id="user_id" placeholder="User id" style="margin: 10px 0"><br>
+                <select name="category" style="margin: 10px 0">
+                    <option value="">Select type</option>
+                    <optgroup label="Available type for now">
+                        <option value="mail">Send a mail</option>
+                        <option value="notification">Send notification</option>
+                    </optgroup>
+                </select><br>
+                <button>Submit</button>
+            </fieldset>
         </form>
     </body>
 </html>

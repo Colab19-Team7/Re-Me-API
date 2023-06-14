@@ -1,0 +1,16 @@
+<h1><%= @name %>, Weekly Reminder</h1>
+<h3>Here are link that you save this but didn't visited<h3>
+<% if @no_visited.any? %>
+  <section class="items-box">
+    <h3>You have <%= pluralize(@no_visited.count, 'item') %> that has no been viewed this Week</h3>
+    <% @no_visited.each do |item| %>
+      <div class="item">
+        <div class="img-box">
+          <h4><%= item['title'] %></h4>
+          <img src="<%= item['item_image']%>" alt="<%= item['title'] %>" />
+        </div>
+        <a class="btn" href="<%= item['item_link'] %>">Visit now</a>
+      </div>
+    <% end %>
+  </section>
+<% end> %>
