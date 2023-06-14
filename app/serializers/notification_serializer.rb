@@ -1,4 +1,4 @@
 class NotificationSerializer < ActiveModel::Serializer
-    attributes :id, :status, :item_id
+    attributes :id, :viewed
     has_one :item
 end
