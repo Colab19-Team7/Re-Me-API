@@ -34,6 +34,8 @@ gem 'active_model_serializers', '~> 0.10.2'
 
 gem 'whenever', require: false
 
+gem 'googleauth', '~> 1.5', '>= 1.5.2'
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 
