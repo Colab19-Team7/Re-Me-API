@@ -10,6 +10,9 @@ Rails.application.routes.draw do
       get '/archives', to: 'archive#archives'
       get '/notifications', to: 'notifications#index'
       patch '/notification', to: 'notifications#update'
+      resources :items do
+        resources :notifications
+      end
     end
   end
 
