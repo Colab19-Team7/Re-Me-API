@@ -6,6 +6,6 @@ class Notification < ApplicationRecord
 
   def send_reminder
     r_item = ItemSerializer.new(item).to_json
-    ActionCable.server.broadcast "notification_#{user.id}_channel", r_item
+    ActionCable.server.broadcast "notification_channel_#{user.id}", r_item
   end
 end

@@ -22,7 +22,9 @@ class Api::V1::ItemsController < ApplicationController
 
         if @item.save
             category.items << @item unless category.items.include?(@item)
-            RemindJob.set(wait_until: Time.now.tomorrow).perform_later(current_user, @item.id)
+            # RemindJob.set(wait_until: Time.now.tomorrow).perform_later(current_user, @item.id)
+            RemindJob.set(wait: 2.minutes).perform_later(current_user, @item.id)
+
             render json: @item, status: :created
         else
             render json: { errors: @item.errors.full_messages }, status: :unprocessable_entity
