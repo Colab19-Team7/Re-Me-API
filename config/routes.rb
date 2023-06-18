@@ -13,9 +13,7 @@ Rails.application.routes.draw do
       get '/archives', to: 'archive#archives'
       get '/notifications', to: 'notifications#index'
       patch '/notification', to: 'notifications#update'
-      resources :items do
-        resources :notifications
-      end
+      resources :items
     end
   end
 
@@ -23,6 +21,7 @@ Rails.application.routes.draw do
   post 'test', to: 'test#test'
 
   post '/auth/login', to: 'sessions#login'
+  post '/auth/google_oauth', to: 'sessions#google_oauth'
 
   # Defines the root path route ("/")
   root "home#index"
