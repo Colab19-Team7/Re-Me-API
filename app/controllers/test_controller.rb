@@ -26,6 +26,7 @@ class TestController < ApplicationController
     end
 
     def send_notification(user)
-        ActionCable.server.broadcast "notification_#{params[:user_id]}_channel", current_user.to_json
+        item = user.items.first
+        ActionCable.server.broadcast "notification_channel_#{params[:user_id]}", item.to_json
     end
 end
